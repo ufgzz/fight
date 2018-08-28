@@ -1,6 +1,8 @@
 package com.oofgz.fight.bean;
 
-public class Greeting {
+import java.io.Serializable;
+
+public class Greeting implements Serializable {
 
     private final long id;
     private final String content;
