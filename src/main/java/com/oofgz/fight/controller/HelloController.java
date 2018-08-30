@@ -4,6 +4,7 @@ import com.oofgz.fight.exception.MyEvalException;
 import com.oofgz.fight.exception.MyException;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,13 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/Hello")
 public class HelloController {
 
-    @RequestMapping("/sayHello")
+    @RequestMapping(value = "/sayHello", method = RequestMethod.GET)
     public String sayHello() {
         return "Hello World";
     }
 
 
-    @RequestMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("index");
         //ModelAndView modelAndView = new ModelAndView("ftl-index");
@@ -26,17 +27,17 @@ public class HelloController {
     }
 
 
-    @RequestMapping("/error-normal")
+    @RequestMapping(value = "/error-normal", method = RequestMethod.GET)
     public String errorNormal(ModelMap modelMap) throws Exception {
         throw new Exception("发生错误Exception" + " , author : " + modelMap.get("author"));
     }
 
-    @RequestMapping("/error-define")
+    @RequestMapping(value = "/error-define", method = RequestMethod.GET)
     public String errorDefine(ModelMap modelMap) throws MyException {
         throw new MyException("发生错误MyException" + " , author : " + modelMap.get("author"));
     }
 
-    @RequestMapping("/error-define-eval")
+    @RequestMapping(value = "/error-define-eval", method = RequestMethod.GET)
     public String errorDefineEval(ModelMap modelMap) throws MyEvalException {
         throw new MyEvalException("发生错误MyEvalException" + " , author : " + modelMap.get("author"));
     }
