@@ -9,3 +9,6 @@ spring:
     base: dc=example,dc=com
     username: zfgican@gmail.com
     password: secret
+    embedded:
+      ldif: ldap-server.ldif
+      base-dn: dc=example,dc=com
