@@ -25,3 +25,5 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+local.properties
+local.properties
