@@ -2,7 +2,6 @@ package com.oofgz.fight.bean;
 
 import lombok.Data;
 import org.springframework.ldap.odm.annotations.Attribute;
-import org.springframework.ldap.odm.annotations.DnAttribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
@@ -18,23 +17,15 @@ import java.io.Serializable;
  *      sn：surname（姓氏）
  *      cn：common name（常用名称）
  */
-@Entry(base = "ou=person,dc=example,dc=com", objectClasses = {"inetOrgPerson"})
+@Entry(base = "dc=maxcrc,dc=com", objectClasses = {"top", "organizationalUnit"})
 @Data
 public class Person implements Serializable {
 
     @Id
-    private Name dn;
+    private Name id;
 
-    @DnAttribute(value = "uid", index = 3)
-    private String uid;
+    @Attribute(name = "description")
+    private String description;
 
-    @Attribute(name = "cn")
-    private String commonName;
-
-    @Attribute(name = "su")
-    private String surName;
-
-    @Attribute(name = "userPassword")
-    private String userPassword;
 
 }

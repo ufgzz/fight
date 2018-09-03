@@ -5,7 +5,7 @@ spring:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   ldap:
-    urls: ldap://localhost:10389
-    base: dc=example,dc=com
-    username: zfgican@gmail.com
+    urls: ldap://localhost:389
+    base: dc=maxcrc,dc=com
+    username: cn=Manager,dc=maxcrc,dc=com
     password: secret

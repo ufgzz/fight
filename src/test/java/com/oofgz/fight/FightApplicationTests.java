@@ -12,11 +12,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.naming.Name;
 import java.util.function.Consumer;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -136,13 +138,13 @@ public class FightApplicationTests {
 	@Test
 	public void saveLdap() {
 
+		Name dn = LdapNameBuilder.newInstance()
+				//.add("ou", "MeiXi")
+				.build();
 		Person person = new Person();
-		person.setUid("uid:1");
-		person.setCommonName("bingo");
-		person.setUserPassword("123456");
-		person.setSurName("G");
+		person.setId(dn);
+		person.setDescription("说明情况,,,");
 		personRepository.save(person);
-
 
 		personRepository.findAll().forEach(new Consumer<Person>() {
 			@Override
