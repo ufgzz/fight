@@ -137,22 +137,19 @@ public class FightApplicationTests {
 
 	@Test
 	public void saveLdap() {
-
 		Name dn = LdapNameBuilder.newInstance()
-				//.add("ou", "MeiXi")
+				.add("ou", "MiMiLLLL")
 				.build();
 		Person person = new Person();
 		person.setId(dn);
-		person.setDescription("说明情况,,,");
+		person.setDescription("说明情况,,,LLLLLLLLLLL");
 		personRepository.save(person);
-
 		personRepository.findAll().forEach(new Consumer<Person>() {
 			@Override
 			public void accept(Person person) {
 				System.out.println(person);
 			}
 		});
-
 	}
 
 }

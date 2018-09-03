@@ -27,5 +27,4 @@ public class Person implements Serializable {
     @Attribute(name = "description")
     private String description;
 
-
 }
