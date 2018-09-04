@@ -138,11 +138,12 @@ public class FightApplicationTests {
 	@Test
 	public void saveLdap() {
 		Name dn = LdapNameBuilder.newInstance()
-				.add("ou", "MiMiLLLL")
+				.add("ou", "Mini")
 				.build();
 		Person person = new Person();
 		person.setId(dn);
-		person.setDescription("说明情况,,,LLLLLLLLLLL");
+		person.setDescription("说明情况,,,修改后的结果");
+		person.setNew(!personRepository.existsById(dn));
 		personRepository.save(person);
 		personRepository.findAll().forEach(new Consumer<Person>() {
 			@Override

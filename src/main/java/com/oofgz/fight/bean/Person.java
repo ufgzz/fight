@@ -1,12 +1,13 @@
 package com.oofgz.fight.bean;
 
 import lombok.Data;
+import org.springframework.data.domain.Persistable;
 import org.springframework.ldap.odm.annotations.Attribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
+import org.springframework.ldap.odm.annotations.Transient;
 
 import javax.naming.Name;
-import java.io.Serializable;
 
 /**
  *  LDAP简称对应
@@ -19,7 +20,11 @@ import java.io.Serializable;
  */
 @Entry(base = "dc=maxcrc,dc=com", objectClasses = {"top", "organizationalUnit"})
 @Data
-public class Person implements Serializable {
+public class Person implements Persistable<Name> {
+
+    //不需要序列化的属性
+    @Transient
+    private boolean isNew = false;
 
     @Id
     private Name id;
@@ -27,4 +32,8 @@ public class Person implements Serializable {
     @Attribute(name = "description")
     private String description;
 
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
 }
