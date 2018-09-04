@@ -8,7 +8,11 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          auto: create-drop
+          auto: update
+        ddl-auto: none
+          naming:
+            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        show-sql: true
   ldap:
     urls: ldap://localhost:389
     base: dc=maxcrc,dc=com
