@@ -11,7 +11,7 @@ spring:
     password: secret
   data:
     mongodb:
-      uri: mongodb://localhost:27017/test
+      uri: mongodb://localhost:27017/dnmogodbt
       option:
         min-connection-per-host: 20
         max-connection-per-host: 200

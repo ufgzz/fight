@@ -9,3 +9,9 @@ spring:
     base: dc=maxcrc,dc=com
     username: cn=Manager,dc=maxcrc,dc=com
     password: secret
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/dnmogodbt
+      option:
+        min-connection-per-host: 20
+        max-connection-per-host: 200
