@@ -2,11 +2,13 @@ package com.oofgz.fight;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.mongodb.MongoClient;
 import com.oofgz.fight.bean.Person;
 import com.oofgz.fight.bean.User;
 import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
 import com.oofgz.fight.repository.PersonRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,12 +32,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class FightApplicationTests {
 
 	private MockMvc mockMvc;
 
 	@Autowired
 	private PersonRepository personRepository;
+
+	@Autowired
+	private MongoClient mongoClient;
 
 	@Test
 	public void contextLoads() {
@@ -151,6 +157,14 @@ public class FightApplicationTests {
 				System.out.println(person);
 			}
 		});
+	}
+
+	@Test
+	public void mongoPlusTest() {
+		log.info("MinConnectionsPerHost = {}, MaxConnectionsPerHost = {}",
+				mongoClient.getMongoClientOptions().getMinConnectionsPerHost(),
+				mongoClient.getMongoClientOptions().getConnectionsPerHost()
+		);
 	}
 
 }
