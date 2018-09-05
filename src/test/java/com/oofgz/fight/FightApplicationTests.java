@@ -17,7 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -54,6 +56,14 @@ public class FightApplicationTests {
 	@Autowired
 	private BlogProperties blogProperties;
 
+	@Autowired
+	@Qualifier("primaryJdbcTemplate")
+	private JdbcTemplate jdbcTemplatePrimary;
+
+	@Autowired
+	@Qualifier("secondaryJdbcTemplate")
+	private JdbcTemplate jdbcTemplateSecondary;
+
 	@Test
 	public void contextLoads() {
 
@@ -65,6 +75,10 @@ public class FightApplicationTests {
 				new GreetingController(),
 				new UserController()
 		).build();
+
+		jdbcTemplatePrimary.update("DELETE FROM DS_USER");
+		jdbcTemplateSecondary.update("DELETE FROM DS_USER");
+
 	}
 
 	@Test
@@ -230,6 +244,24 @@ public class FightApplicationTests {
 		log.info("随机long : " + blogProperties.getBigNumber());
 		log.info("随机10以下 : " + blogProperties.getRandomNumIn10());
 		log.info("随机10-20 : " + blogProperties.getRandomNumBetween1020());
+	}
+
+
+	@Test
+	public void multiplyDatasourceTest() {
+		// 往第一个数据源中插入两条数据
+		jdbcTemplatePrimary.update("insert into ds_user(name,age) values(?, ?)", "aaa", 20);
+		jdbcTemplatePrimary.update("insert into ds_user(name,age) values(?, ?)", "bbb", 30);
+
+		// 往第二个数据源中插入一条数据，若插入的是第一个数据源，则会主键冲突报错
+		jdbcTemplateSecondary.update("insert into ds_user(name,age) values(?, ?)", "aaa", 20);
+
+		// 查一下第一个数据源中是否有两条数据，验证插入是否成功
+		Assert.assertEquals("2", jdbcTemplatePrimary.queryForObject("select count(1) from ds_user", String.class));
+
+		// 查一下第一个数据源中是否有两条数据，验证插入是否成功
+		Assert.assertEquals("1", jdbcTemplateSecondary.queryForObject("select count(1) from ds_user", String.class));
 
 	}
+
 }
