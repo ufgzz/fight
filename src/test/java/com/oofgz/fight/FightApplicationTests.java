@@ -279,9 +279,9 @@ public class FightApplicationTests {
 		dsUserRepository.save(new DsUser("eee", 50));
 		Assert.assertEquals(5, dsUserRepository.findAll().size());
 
-		dsMessageRepository.save(new DsMessage("o1", "aaaaaaaaaa"));
-		dsMessageRepository.save(new DsMessage("o2", "bbbbbbbbbb"));
-		dsMessageRepository.save(new DsMessage("o3", "cccccccccc"));
+		dsMessageRepository.save(new DsMessage("o1", "aaa_aaa_aaa"));
+		dsMessageRepository.save(new DsMessage("o2", "bbb_bbb_bbb"));
+		dsMessageRepository.save(new DsMessage("o3", "ccc_ccc_ccc"));
 		Assert.assertEquals(3, dsMessageRepository.findAll().size());
 	}
 }
