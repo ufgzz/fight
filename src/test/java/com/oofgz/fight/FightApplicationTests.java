@@ -3,11 +3,11 @@ package com.oofgz.fight;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.mongodb.MongoClient;
-import com.oofgz.fight.bean.JpaDept;
-import com.oofgz.fight.bean.Person;
-import com.oofgz.fight.bean.User;
+import com.oofgz.fight.bean.*;
 import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
+import com.oofgz.fight.repository.DsMessageRepository;
+import com.oofgz.fight.repository.DsUserRepository;
 import com.oofgz.fight.repository.JpaDeptRepository;
 import com.oofgz.fight.repository.PersonRepository;
 import com.oofgz.fight.service.BlogProperties;
@@ -63,6 +63,12 @@ public class FightApplicationTests {
 	@Autowired
 	@Qualifier("secondaryJdbcTemplate")
 	private JdbcTemplate jdbcTemplateSecondary;
+
+	@Autowired
+	private DsUserRepository dsUserRepository;
+
+	@Autowired
+	private DsMessageRepository dsMessageRepository;
 
 	@Test
 	public void contextLoads() {
@@ -264,4 +270,18 @@ public class FightApplicationTests {
 
 	}
 
+	@Test
+	public void multiplyJpaDatasourceTest() {
+		dsUserRepository.save(new DsUser("aaa", 10));
+		dsUserRepository.save(new DsUser("bbb", 20));
+		dsUserRepository.save(new DsUser("ccc", 30));
+		dsUserRepository.save(new DsUser("ddd", 40));
+		dsUserRepository.save(new DsUser("eee", 50));
+		Assert.assertEquals(5, dsUserRepository.findAll().size());
+
+		dsMessageRepository.save(new DsMessage("o1", "aaaaaaaaaa"));
+		dsMessageRepository.save(new DsMessage("o2", "bbbbbbbbbb"));
+		dsMessageRepository.save(new DsMessage("o3", "cccccccccc"));
+		Assert.assertEquals(3, dsMessageRepository.findAll().size());
+	}
 }
