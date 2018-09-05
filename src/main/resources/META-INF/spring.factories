@@ -1,0 +1,7 @@
+org.springframework.context.ApplicationListener=\
+  com.oofgz.fight.ApplicationEnvironmentPreparedEventListener,\
+  com.oofgz.fight.ApplicationFailedEventListener,\
+  com.oofgz.fight.ApplicationPreparedEventListener,\
+  com.oofgz.fight.ApplicationReadyEventListener,\
+  com.oofgz.fight.ApplicationStartedEventListener,\
+  com.oofgz.fight.ApplicationStartingEventListener
