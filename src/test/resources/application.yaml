@@ -1,3 +1,14 @@
+com:
+  zfgoo:
+    blog:
+      name: zfgcian@gmail.com
+      title: Spring boot教程
+      desc: ${com.zfgoo.blog.name}正在努力学习《${com.zfgoo.blog.title}》
+      value: ${random.value}
+      number: ${random.int}
+      bignumber: ${random.long}
+      random-num-in-10: ${random.int(10)}
+      random-num-between-10-20: ${random.int[10,20]}
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/fight?useSSL=false

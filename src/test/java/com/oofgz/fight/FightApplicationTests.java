@@ -10,6 +10,7 @@ import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
 import com.oofgz.fight.repository.JpaDeptRepository;
 import com.oofgz.fight.repository.PersonRepository;
+import com.oofgz.fight.service.BlogProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
@@ -49,6 +50,9 @@ public class FightApplicationTests {
 
 	@Autowired
 	private JpaDeptRepository jpaDeptRepository;
+
+	@Autowired
+	private BlogProperties blogProperties;
 
 	@Test
 	public void contextLoads() {
@@ -214,4 +218,18 @@ public class FightApplicationTests {
 
 	}
 
+	@Test
+	public void testBlogProperties() {
+		Assert.assertEquals("zfgcian@gmail.com", blogProperties.getName());
+		Assert.assertEquals("Spring boot教程", blogProperties.getTitle());
+		Assert.assertEquals("zfgcian@gmail.com正在努力学习《Spring boot教程》", blogProperties.getDesc());
+
+		log.info("随机数测试输出：");
+		log.info("随机字符串 : " + blogProperties.getValue());
+		log.info("随机int : " + blogProperties.getNumber());
+		log.info("随机long : " + blogProperties.getBigNumber());
+		log.info("随机10以下 : " + blogProperties.getRandomNumIn10());
+		log.info("随机10-20 : " + blogProperties.getRandomNumBetween1020());
+
+	}
 }
