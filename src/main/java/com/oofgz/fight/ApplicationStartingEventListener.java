@@ -10,6 +10,7 @@ public class ApplicationStartingEventListener
 
     @Override
     public void onApplicationEvent(ApplicationStartingEvent event) {
+        System.out.println("......ApplicationStartingEvent......");
         log.info("......ApplicationStartingEvent......");
     }
 }
