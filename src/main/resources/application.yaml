@@ -7,12 +7,12 @@ spring:
   jpa:
     properties:
       hibernate:
+        ddl-auto: none
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         hbm2ddl:
           auto: update
-        ddl-auto: none
-          naming:
-            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        show-sql: true
+      show-sql: true
   ldap:
     urls: ldap://localhost:389
     base: dc=maxcrc,dc=com

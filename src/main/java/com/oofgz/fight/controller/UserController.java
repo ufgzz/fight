@@ -1,6 +1,8 @@
 package com.oofgz.fight.controller;
 
+import com.oofgz.fight.bean.JpaDept;
 import com.oofgz.fight.bean.User;
+import com.oofgz.fight.repository.JpaDeptRepository;
 import com.oofgz.fight.service.IUserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,6 +16,9 @@ import java.util.*;
 @RestController
 @RequestMapping(value = "/User")
 public class UserController {
+
+    @Autowired
+    private JpaDeptRepository jpaDeptRepository;
 
     @Autowired
     private IUserService userService;
@@ -76,6 +81,22 @@ public class UserController {
         userMap.remove(name);
         userService.deleteByName(name);
         return "delete success";
+    }
+
+    @ApiOperation(value = "创建部门", notes = "根据JpaDept对象创建部门")
+    @ApiImplicitParam(name = "jpaDept", value = "部门详细实体jpaDept", required = true, dataType = "JpaDept")
+    @RequestMapping(value = "/postJpaDept", method = RequestMethod.POST)
+    public String postJpaDept(@RequestBody JpaDept jpaDept) {
+            jpaDeptRepository.save(jpaDept);
+            return "save success";
+    }
+
+
+    @ApiOperation(value = "获取部门列表", notes = "获取所有部门信息列表")
+    @RequestMapping(value = "/getJpaDeptList", method = RequestMethod.GET)
+    public List<JpaDept> getJpaDeptList() {
+        List<JpaDept> jpaDeptList = jpaDeptRepository.findAll();
+        return jpaDeptList;
     }
 
 }
