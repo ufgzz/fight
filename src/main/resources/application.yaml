@@ -23,16 +23,16 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/fight?useSSL=false
+    jdbc-url: jdbc:mysql://localhost:3306/fight?useSSL=false
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    primary:
+    secondary:
       jdbc-url: jdbc:mysql://localhost:3306/fight?useSSL=false
       username: root
       password:
       driver-class-name: com.mysql.cj.jdbc.Driver
-    secondary:
+    thirdly:
       jdbc-url: jdbc:mysql://localhost:3306/bootdo?useSSL=false
       username: root
       password:

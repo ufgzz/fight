@@ -1,8 +1,8 @@
 package com.oofgz.fight.controller;
 
-import com.oofgz.fight.bean.JpaDept;
 import com.oofgz.fight.bean.User;
-import com.oofgz.fight.repository.JpaDeptRepository;
+import com.oofgz.fight.domain.primary.JpaDept;
+import com.oofgz.fight.domain.primary.JpaDeptRepository;
 import com.oofgz.fight.service.IUserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

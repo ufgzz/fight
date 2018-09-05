@@ -1,5 +1,15 @@
 com:
   zfgoo:
+    foo: bar
+    database-platform: sql
+    post[0]: Why Spring Boot
+    post[1]: Why Spring Cloud
+    posts[0]:
+      title: Why Spring Boot
+      content: It is perfect!
+    posts[1]:
+      title: Why Spring Cloud
+      content: It is perfect too!
     blog:
       name: zfgcian@gmail.com
       title: Spring boot教程
@@ -10,21 +20,24 @@ com:
       random-num-in-10: ${random.int(10)}
       random-num-between-10-20: ${random.int[10,20]}
 spring:
+  profiles:
+    active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/fight?useSSL=false
+    jdbc-url: jdbc:mysql://localhost:3306/fight?useSSL=false
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    primary:
+    secondary:
       jdbc-url: jdbc:mysql://localhost:3306/fight?useSSL=false
       username: root
       password:
       driver-class-name: com.mysql.cj.jdbc.Driver
-    secondary:
+    thirdly:
       jdbc-url: jdbc:mysql://localhost:3306/bootdo?useSSL=false
       username: root
       password:
       driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     properties:
       hibernate:

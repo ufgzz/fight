@@ -13,7 +13,7 @@ import java.util.List;
 public class UserServiceImpl implements IUserService {
 
     @Autowired
-    @Qualifier("defaultJdbcTemplate")
+    @Qualifier("primaryJdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
     @Override

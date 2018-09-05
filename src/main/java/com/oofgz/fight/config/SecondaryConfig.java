@@ -22,11 +22,12 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "entityManagerFactorySecondary",
         transactionManagerRef = "transactionManagerSecondary",
-        basePackages = {"spring.datasource.secondary"}
+        basePackages = {"com.oofgz.fight.domain.secondary"}
 )
-public class SecondaryConfig {
+public class SecondaryConfig extends DataSourceConfig{
 
-    @Autowired @Qualifier("secondaryDataSource")
+    @Autowired
+    @Qualifier("secondaryDataSource")
     private DataSource secondaryDataSource;
 
     @Bean(name = "entityManagerSecondary")
@@ -39,7 +40,7 @@ public class SecondaryConfig {
         return builder
                 .dataSource(secondaryDataSource)
                 .properties(getVendorProperties())
-                .packages("spring.datasource.secondary") //设置实体类所在位置
+                .packages("com.oofgz.fight.domain.secondary") //设置实体类所在位置
                 .persistenceUnit("secondaryPersistenceUnit")
                 .build();
     }

@@ -1,6 +1,5 @@
-package com.oofgz.fight.repository;
+package com.oofgz.fight.domain.primary;
 
-import com.oofgz.fight.bean.Person;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.naming.Name;

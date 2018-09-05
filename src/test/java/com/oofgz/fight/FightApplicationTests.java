@@ -3,13 +3,17 @@ package com.oofgz.fight;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.mongodb.MongoClient;
-import com.oofgz.fight.bean.*;
+import com.oofgz.fight.bean.User;
 import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
-import com.oofgz.fight.repository.DsMessageRepository;
-import com.oofgz.fight.repository.DsUserRepository;
-import com.oofgz.fight.repository.JpaDeptRepository;
-import com.oofgz.fight.repository.PersonRepository;
+import com.oofgz.fight.domain.primary.JpaDept;
+import com.oofgz.fight.domain.primary.JpaDeptRepository;
+import com.oofgz.fight.domain.primary.Person;
+import com.oofgz.fight.domain.primary.PersonRepository;
+import com.oofgz.fight.domain.secondary.DsUser;
+import com.oofgz.fight.domain.secondary.DsUserRepository;
+import com.oofgz.fight.domain.thirdly.DsMessage;
+import com.oofgz.fight.domain.thirdly.DsMessageRepository;
 import com.oofgz.fight.service.BlogProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -45,24 +49,24 @@ public class FightApplicationTests {
 	private MockMvc mockMvc;
 
 	@Autowired
-	private PersonRepository personRepository;
-
-	@Autowired
 	private MongoClient mongoClient;
-
-	@Autowired
-	private JpaDeptRepository jpaDeptRepository;
 
 	@Autowired
 	private BlogProperties blogProperties;
 
 	@Autowired
-	@Qualifier("primaryJdbcTemplate")
-	private JdbcTemplate jdbcTemplatePrimary;
-
-	@Autowired
 	@Qualifier("secondaryJdbcTemplate")
 	private JdbcTemplate jdbcTemplateSecondary;
+
+	@Autowired
+	@Qualifier("thirdlyJdbcTemplate")
+	private JdbcTemplate jdbcTemplateThirdly;
+
+	@Autowired
+	private PersonRepository personRepository;
+
+	@Autowired
+	private JpaDeptRepository jpaDeptRepository;
 
 	@Autowired
 	private DsUserRepository dsUserRepository;
@@ -82,9 +86,8 @@ public class FightApplicationTests {
 				new UserController()
 		).build();
 
-		jdbcTemplatePrimary.update("DELETE FROM DS_USER");
 		jdbcTemplateSecondary.update("DELETE FROM DS_USER");
-
+		jdbcTemplateThirdly.update("DELETE FROM DS_USER");
 	}
 
 	@Test
@@ -255,18 +258,18 @@ public class FightApplicationTests {
 
 	@Test
 	public void multiplyDatasourceTest() {
-		// 往第一个数据源中插入两条数据
-		jdbcTemplatePrimary.update("insert into ds_user(name,age) values(?, ?)", "aaa", 20);
-		jdbcTemplatePrimary.update("insert into ds_user(name,age) values(?, ?)", "bbb", 30);
-
-		// 往第二个数据源中插入一条数据，若插入的是第一个数据源，则会主键冲突报错
+		// 往第二个数据源中插入两条数据
 		jdbcTemplateSecondary.update("insert into ds_user(name,age) values(?, ?)", "aaa", 20);
+		jdbcTemplateSecondary.update("insert into ds_user(name,age) values(?, ?)", "bbb", 30);
 
-		// 查一下第一个数据源中是否有两条数据，验证插入是否成功
-		Assert.assertEquals("2", jdbcTemplatePrimary.queryForObject("select count(1) from ds_user", String.class));
+		// 往第三个数据源中插入一条数据，若插入的是第一个数据源，则会主键冲突报错
+		jdbcTemplateThirdly.update("insert into ds_user(name,age) values(?, ?)", "aaa", 20);
 
-		// 查一下第一个数据源中是否有两条数据，验证插入是否成功
-		Assert.assertEquals("1", jdbcTemplateSecondary.queryForObject("select count(1) from ds_user", String.class));
+		// 查一下第二个数据源中是否有两条数据，验证插入是否成功
+		Assert.assertEquals("2", jdbcTemplateSecondary.queryForObject("select count(1) from ds_user", String.class));
+
+		// 查一下第三个数据源中是否有两条数据，验证插入是否成功
+		Assert.assertEquals("1", jdbcTemplateThirdly.queryForObject("select count(1) from ds_user", String.class));
 
 	}
 

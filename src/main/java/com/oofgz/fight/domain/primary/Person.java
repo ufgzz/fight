@@ -1,4 +1,4 @@
-package com.oofgz.fight.bean;
+package com.oofgz.fight.domain.primary;
 
 import lombok.Data;
 import org.springframework.data.domain.Persistable;

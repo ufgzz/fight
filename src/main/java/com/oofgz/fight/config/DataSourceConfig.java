@@ -13,11 +13,11 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-
-    @Bean(name = "defaultDataSource")
-    @Qualifier("defaultDataSource")
+    @Bean(name = "primaryDataSource")
+    @Qualifier("primaryDataSource")
+    @Primary
     @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource defaultDataSource() {
+    public DataSource primaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
@@ -26,26 +26,21 @@ public class DataSourceConfig {
      * 当为url时，在数据源配置时使用DataSourceProperties方法
      * @return
      */
-    @Bean(name = "primaryDataSource")
-    @Qualifier("primaryDataSource")
-    @ConfigurationProperties(prefix="spring.datasource.primary")
-    public DataSource primaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
     @Bean(name = "secondaryDataSource")
     @Qualifier("secondaryDataSource")
-    @Primary
     @ConfigurationProperties(prefix="spring.datasource.secondary")
     public DataSource secondaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "defaultJdbcTemplate")
-    public JdbcTemplate defaultJdbcTemplate(
-            @Qualifier("defaultDataSource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+    @Bean(name = "thirdlyDataSource")
+    @Qualifier("thirdlyDataSource")
+    @ConfigurationProperties(prefix="spring.datasource.thirdly")
+    public DataSource thirdlyDataSource() {
+        return DataSourceBuilder.create().build();
     }
+
+
 
 
     @Bean(name = "primaryJdbcTemplate")
@@ -57,6 +52,12 @@ public class DataSourceConfig {
     @Bean(name = "secondaryJdbcTemplate")
     public JdbcTemplate secondaryJdbcTemplate(
             @Qualifier("secondaryDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean(name = "thirdlyJdbcTemplate")
+    public JdbcTemplate thirdlyJdbcTemplate(
+            @Qualifier("thirdlyDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 

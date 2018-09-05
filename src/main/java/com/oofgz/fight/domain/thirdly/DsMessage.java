@@ -1,4 +1,4 @@
-package com.oofgz.fight.bean;
+package com.oofgz.fight.domain.thirdly;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

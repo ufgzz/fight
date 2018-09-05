@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -21,30 +20,28 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "entityManagerFactoryPrimary",
-        transactionManagerRef = "transactionManagerPrimary",
-        basePackages = {"com.oofgz.fight.domain.primary"}
+        entityManagerFactoryRef = "entityManagerFactoryThirdly",
+        transactionManagerRef = "transactionManagerThirdly",
+        basePackages = {"com.oofgz.fight.domain.thirdly"}
 )
-public class PrimaryConfig extends DataSourceConfig {
+public class ThirdlyConfig extends DataSourceConfig {
 
     @Autowired
-    @Qualifier("primaryDataSource")
-    private DataSource primaryDataSource;
+    @Qualifier("thirdlyDataSource")
+    private DataSource thirdlyDataSource;
 
-    @Primary
-    @Bean(name = "entityManagerPrimary")
+    @Bean(name = "entityManagerThirdly")
     public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
-        return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
+        return entityManagerFactoryThirdly(builder).getObject().createEntityManager();
     }
 
-    @Primary
-    @Bean(name = "entityManagerFactoryPrimary")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary (EntityManagerFactoryBuilder builder) {
+    @Bean(name = "entityManagerFactoryThirdly")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryThirdly (EntityManagerFactoryBuilder builder) {
         return builder
-                .dataSource(primaryDataSource)
+                .dataSource(thirdlyDataSource)
                 .properties(getVendorProperties())
-                .packages("com.oofgz.fight.domain.primary") //设置实体类所在位置
-                .persistenceUnit("primaryPersistenceUnit")
+                .packages("com.oofgz.fight.domain.thirdly") //设置实体类所在位置
+                .persistenceUnit("thirdlyPersistenceUnit")
                 .build();
     }
 
@@ -54,10 +51,10 @@ public class PrimaryConfig extends DataSourceConfig {
         return jpaProperties.getHibernateProperties(new HibernateSettings());
     }
 
-    @Primary
-    @Bean(name = "transactionManagerPrimary")
-    public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
-        return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
+    @Bean(name = "transactionManagerThirdly")
+    PlatformTransactionManager transactionManagerThirdly(EntityManagerFactoryBuilder builder) {
+        return new JpaTransactionManager(entityManagerFactoryThirdly(builder).getObject());
     }
+
 
 }
