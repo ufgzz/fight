@@ -22,7 +22,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "entityManagerFactoryThirdly",
         transactionManagerRef = "transactionManagerThirdly",
-        basePackages = {"com.oofgz.fight.domain.thirdly"}
+        basePackages = {"com.oofgz.fight.repository.thirdly"}
 )
 public class ThirdlyConfig extends DataSourceConfig {
 

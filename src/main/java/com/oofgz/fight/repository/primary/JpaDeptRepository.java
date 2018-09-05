@@ -1,5 +1,6 @@
-package com.oofgz.fight.domain.primary;
+package com.oofgz.fight.repository.primary;
 
+import com.oofgz.fight.domain.primary.JpaDept;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

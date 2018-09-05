@@ -22,7 +22,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "entityManagerFactorySecondary",
         transactionManagerRef = "transactionManagerSecondary",
-        basePackages = {"com.oofgz.fight.domain.secondary"}
+        basePackages = {"com.oofgz.fight.repository.secondary"}
 )
 public class SecondaryConfig extends DataSourceConfig{
 

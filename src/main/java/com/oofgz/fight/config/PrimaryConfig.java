@@ -23,7 +23,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "entityManagerFactoryPrimary",
         transactionManagerRef = "transactionManagerPrimary",
-        basePackages = {"com.oofgz.fight.domain.primary"}
+        basePackages = {"com.oofgz.fight.repository.primary"}
 )
 public class PrimaryConfig extends DataSourceConfig {
 
