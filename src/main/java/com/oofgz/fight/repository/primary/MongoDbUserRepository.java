@@ -1,0 +1,10 @@
+package com.oofgz.fight.repository.primary;
+
+import com.oofgz.fight.domain.primary.MongoDbUser;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface MongoDbUserRepository extends MongoRepository<MongoDbUser, Long> {
+
+    MongoDbUser findByUsername(String username);
+
+}

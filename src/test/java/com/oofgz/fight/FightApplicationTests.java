@@ -7,11 +7,13 @@ import com.oofgz.fight.bean.User;
 import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
 import com.oofgz.fight.domain.primary.JpaDept;
+import com.oofgz.fight.domain.primary.MongoDbUser;
 import com.oofgz.fight.domain.primary.Person;
 import com.oofgz.fight.domain.primary.RedisUser;
 import com.oofgz.fight.domain.secondary.DsUser;
 import com.oofgz.fight.domain.thirdly.DsMessage;
 import com.oofgz.fight.repository.primary.JpaDeptRepository;
+import com.oofgz.fight.repository.primary.MongoDbUserRepository;
 import com.oofgz.fight.repository.primary.PersonRepository;
 import com.oofgz.fight.repository.secondary.DsUserRepository;
 import com.oofgz.fight.repository.thirdly.DsMessageRepository;
@@ -83,6 +85,9 @@ public class FightApplicationTests {
 	@Autowired
 	private RedisTemplate<String, RedisUser> redisUserRedisTemplate;
 
+	@Autowired
+	private MongoDbUserRepository mongoDbUserRepository;
+
 	@Test
 	public void contextLoads() {
 
@@ -97,6 +102,8 @@ public class FightApplicationTests {
 
 		jdbcTemplateSecondary.update("DELETE FROM DS_USER");
 		jdbcTemplateThirdly.update("DELETE FROM DS_USER");
+
+		mongoDbUserRepository.deleteAll();
 	}
 
 	@Test
@@ -319,4 +326,28 @@ public class FightApplicationTests {
         Assert.assertEquals(40, redisUserRedisTemplate.opsForValue().get("蜘蛛侠").getAge().longValue());
 
     }
+
+
+    @Test
+    public void mongoDbUserTest() {
+
+		// 创建三个MongoDbUser，并验证MongoDbUser总数
+		mongoDbUserRepository.save(new MongoDbUser(1L, "didi", 30));
+		mongoDbUserRepository.save(new MongoDbUser(2L, "mama", 40));
+		mongoDbUserRepository.save(new MongoDbUser(3L, "kaka", 50));
+		Assert.assertEquals(3, mongoDbUserRepository.findAll().size());
+
+		// 删除一个MongoDbUser，再验证MongoDbUser总数
+		MongoDbUser u = mongoDbUserRepository.findById(1L).get();
+		mongoDbUserRepository.delete(u);
+		Assert.assertEquals(2, mongoDbUserRepository.findAll().size());
+
+		// 删除一个MongoDbUser，再验证MongoDbUser总数
+		u = mongoDbUserRepository.findByUsername("mama");
+		mongoDbUserRepository.delete(u);
+		Assert.assertEquals(1, mongoDbUserRepository.findAll().size());
+
+
+	}
+
 }
