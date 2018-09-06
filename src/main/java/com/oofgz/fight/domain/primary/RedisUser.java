@@ -1,11 +1,13 @@
 package com.oofgz.fight.domain.primary;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
+@NoArgsConstructor
 @RequiredArgsConstructor
 @Data
 public class RedisUser implements Serializable {
