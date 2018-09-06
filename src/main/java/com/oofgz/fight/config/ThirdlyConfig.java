@@ -24,7 +24,7 @@ import java.util.Map;
         transactionManagerRef = "transactionManagerThirdly",
         basePackages = {"com.oofgz.fight.repository.thirdly"}
 )
-public class ThirdlyConfig extends DataSourceConfig {
+public class ThirdlyConfig {
 
     @Autowired
     @Qualifier("thirdlyDataSource")

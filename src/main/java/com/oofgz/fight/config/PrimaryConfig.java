@@ -25,7 +25,7 @@ import java.util.Map;
         transactionManagerRef = "transactionManagerPrimary",
         basePackages = {"com.oofgz.fight.repository.primary"}
 )
-public class PrimaryConfig extends DataSourceConfig {
+public class PrimaryConfig {
 
     @Autowired
     @Qualifier("primaryDataSource")
