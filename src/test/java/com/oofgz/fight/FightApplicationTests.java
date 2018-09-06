@@ -8,6 +8,7 @@ import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
 import com.oofgz.fight.domain.primary.JpaDept;
 import com.oofgz.fight.domain.primary.Person;
+import com.oofgz.fight.domain.primary.RedisUser;
 import com.oofgz.fight.domain.secondary.DsUser;
 import com.oofgz.fight.domain.thirdly.DsMessage;
 import com.oofgz.fight.repository.primary.JpaDeptRepository;
@@ -23,6 +24,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -73,6 +76,12 @@ public class FightApplicationTests {
 
 	@Autowired
 	private DsMessageRepository dsMessageRepository;
+
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
+
+	@Autowired
+	private RedisTemplate<String, RedisUser> redisUserRedisTemplate;
 
 	@Test
 	public void contextLoads() {
@@ -182,7 +191,7 @@ public class FightApplicationTests {
 				.build();
 		Person person = new Person();
 		person.setId(dn);
-		person.setDescription("说明情况,,,修改后的结果");
+		person.setDescription("说明情况,,,修改后的结果+++++");
 		person.setNew(!personRepository.existsById(dn));
 		personRepository.save(person);
 		personRepository.findAll().forEach(new Consumer<Person>() {
@@ -287,4 +296,27 @@ public class FightApplicationTests {
 		dsMessageRepository.save(new DsMessage("o3", "ccc_ccc_ccc"));
 		Assert.assertEquals(3, dsMessageRepository.findAll().size());
 	}
+
+
+	@Test
+	public void redisUserTest() {
+        // 保存字符串
+        stringRedisTemplate.opsForValue().set("aaa", "111");
+        Assert.assertEquals("111", stringRedisTemplate.opsForValue().get("aaa"));
+
+        // 保存对象
+        RedisUser user = new RedisUser("超人", 20);
+        redisUserRedisTemplate.opsForValue().set(user.getUsername(), user);
+
+        user = new RedisUser("蝙蝠侠", 30);
+        redisUserRedisTemplate.opsForValue().set(user.getUsername(), user);
+
+        user = new RedisUser("蜘蛛侠", 40);
+        redisUserRedisTemplate.opsForValue().set(user.getUsername(), user);
+
+        Assert.assertEquals(20, redisUserRedisTemplate.opsForValue().get("超人").getAge().longValue());
+        Assert.assertEquals(30, redisUserRedisTemplate.opsForValue().get("蝙蝠侠").getAge().longValue());
+        Assert.assertEquals(40, redisUserRedisTemplate.opsForValue().get("蜘蛛侠").getAge().longValue());
+
+    }
 }

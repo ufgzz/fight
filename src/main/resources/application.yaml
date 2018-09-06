@@ -58,3 +58,15 @@ spring:
       option:
         min-connection-per-host: 20
         max-connection-per-host: 200
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    timeout: 0ms
