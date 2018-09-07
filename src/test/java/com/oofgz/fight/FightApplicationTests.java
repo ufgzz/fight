@@ -6,14 +6,12 @@ import com.mongodb.MongoClient;
 import com.oofgz.fight.bean.User;
 import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
-import com.oofgz.fight.domain.primary.JpaDept;
-import com.oofgz.fight.domain.primary.MongoDbUser;
-import com.oofgz.fight.domain.primary.Person;
-import com.oofgz.fight.domain.primary.RedisUser;
+import com.oofgz.fight.domain.primary.*;
 import com.oofgz.fight.domain.secondary.DsUser;
 import com.oofgz.fight.domain.thirdly.DsMessage;
 import com.oofgz.fight.repository.primary.JpaDeptRepository;
 import com.oofgz.fight.repository.primary.MongoDbUserRepository;
+import com.oofgz.fight.repository.primary.MybatisUserMapper;
 import com.oofgz.fight.repository.primary.PersonRepository;
 import com.oofgz.fight.repository.secondary.DsUserRepository;
 import com.oofgz.fight.repository.thirdly.DsMessageRepository;
@@ -30,13 +28,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.naming.Name;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -87,6 +88,10 @@ public class FightApplicationTests {
 
 	@Autowired
 	private MongoDbUserRepository mongoDbUserRepository;
+
+	@Autowired
+	private MybatisUserMapper mybatisUserMapper;
+
 
 	@Test
 	public void contextLoads() {
@@ -347,6 +352,44 @@ public class FightApplicationTests {
 		mongoDbUserRepository.delete(u);
 		Assert.assertEquals(1, mongoDbUserRepository.findAll().size());
 
+
+	}
+
+	@Test
+	@Rollback
+	public void mybatisUserTest() {
+
+		// insert一条数据，并select出来验证
+		mybatisUserMapper.insert("AAA", 20);
+		MybatisUser mybatisUser = mybatisUserMapper.findByName("AAA");
+		Assert.assertEquals(20, mybatisUser.getAge().intValue());
+
+		// update一条数据，并select出来验证
+		mybatisUser.setAge(30);
+		mybatisUserMapper.update(mybatisUser);
+		mybatisUser = mybatisUserMapper.findByName("AAA");
+		Assert.assertEquals(30, mybatisUser.getAge().intValue());
+
+		// 删除这条数据，并select验证
+		mybatisUserMapper.delete(mybatisUser.getId());
+		mybatisUser = mybatisUserMapper.findByName("AAA");
+		Assert.assertEquals(null, mybatisUser);
+
+		mybatisUser = new MybatisUser("BBB", 30);
+		mybatisUserMapper.insertByUser(mybatisUser);
+		Assert.assertEquals(30, mybatisUserMapper.findByName("BBB").getAge().intValue());
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("username", "CCC");
+		map.put("age", 40);
+		mybatisUserMapper.insertByMap(map);
+		Assert.assertEquals(40, mybatisUserMapper.findByName("CCC").getAge().intValue());
+
+		List<MybatisUser> mybatisUserList = mybatisUserMapper.findAll();
+		for(MybatisUser user : mybatisUserList) {
+			Assert.assertEquals(null, user.getId());
+			Assert.assertNotEquals(null, user.getUsername());
+		}
 
 	}
 
