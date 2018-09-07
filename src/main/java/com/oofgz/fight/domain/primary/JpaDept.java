@@ -12,7 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
-@Table(name = "dept")
 public class JpaDept implements Serializable {
 
     @Id

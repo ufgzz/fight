@@ -1,6 +1,6 @@
 package com.oofgz.fight.exception;
 
-import com.oofgz.fight.bean.ErrorInfo;
+import com.oofgz.fight.entity.ErrorInfo;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;

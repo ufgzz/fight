@@ -20,7 +20,7 @@ import javax.naming.Name;
  */
 @Entry(base = "dc=maxcrc,dc=com", objectClasses = {"top", "organizationalUnit"})
 @Data
-public class Person implements Persistable<Name> {
+public class LdapPerson implements Persistable<Name> {
 
     //不需要序列化的属性
     @Transient

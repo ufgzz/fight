@@ -1,6 +1,6 @@
 package com.oofgz.fight.controller;
 
-import com.oofgz.fight.bean.User;
+import com.oofgz.fight.entity.User;
 import com.oofgz.fight.service.IUserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -64,8 +64,9 @@ public class UserController {
         User u = userMap.get(name);
         u.setName(user.getName());
         u.setAge(user.getAge());
-        userMap.put(name, u);
-        userService.updateUserByName(name, user.getAge(), user.getPhone(), user.getProfession());
+        userMap.remove(name);
+        userMap.put(u.getName(), u);
+        userService.updateUserByName(name, u);
         return "put update success";
     }
 
@@ -76,6 +77,14 @@ public class UserController {
         userMap.remove(name);
         userService.deleteByName(name);
         return "delete success";
+    }
+
+    @ApiOperation(value = "删除所有用户", notes = "删除所有用户列表信息")
+    @RequestMapping(value = {"", "/deleteAllUsers"}, method = RequestMethod.DELETE)
+    public String delettAllUsers() {
+        userMap.clear();
+        userService.deleteAllUsers();
+        return "delete all success";
     }
 
 }

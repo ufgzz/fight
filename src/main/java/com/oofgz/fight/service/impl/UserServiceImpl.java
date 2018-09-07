@@ -1,6 +1,7 @@
-package com.oofgz.fight.service;
+package com.oofgz.fight.service.impl;
 
-import com.oofgz.fight.bean.User;
+import com.oofgz.fight.entity.User;
+import com.oofgz.fight.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -31,8 +32,8 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
-    public void updateUserByName(String name, String age, String phone, String profession) {
-        jdbcTemplate.update("update user set age = ?, phone = ?, profession = ? where name = ?", age, phone, profession, name);
+    public void updateUserByName(String name, User user) {
+        jdbcTemplate.update("update user set set name = ?, age = ?, phone = ?, profession = ? where name = ?", user.getName(), user.getAge(), user.getPhone(), user.getProfession(), name);
     }
 
     @Override
@@ -40,4 +41,8 @@ public class UserServiceImpl implements IUserService {
         jdbcTemplate.update("delete from user where name = ?", name);
     }
 
+    @Override
+    public void deleteAllUsers() {
+        jdbcTemplate.update("delete from user");
+    }
 }

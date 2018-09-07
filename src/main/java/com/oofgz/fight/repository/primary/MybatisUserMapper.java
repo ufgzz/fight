@@ -20,7 +20,7 @@ public interface MybatisUserMapper {
             @Result(property = "username", column = "username"),
             @Result(property = "age", column = "age")
     })
-    @Select("SELECT username, age FROM mybatis_user")
+    @Select("SELECT id, username, age FROM mybatis_user")
     List<MybatisUser> findAll();
 
 

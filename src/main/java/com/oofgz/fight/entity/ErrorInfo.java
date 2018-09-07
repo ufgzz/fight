@@ -1,4 +1,4 @@
-package com.oofgz.fight.bean;
+package com.oofgz.fight.entity;
 
 import java.io.Serializable;
 

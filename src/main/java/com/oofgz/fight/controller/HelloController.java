@@ -1,6 +1,6 @@
 package com.oofgz.fight.controller;
 
-import com.oofgz.fight.bean.LombokUser;
+import com.oofgz.fight.entity.LombokUser;
 import com.oofgz.fight.exception.MyEvalException;
 import com.oofgz.fight.exception.MyException;
 import io.swagger.annotations.ApiImplicitParam;
