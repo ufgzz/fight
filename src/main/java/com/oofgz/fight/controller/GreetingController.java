@@ -16,7 +16,7 @@ public class GreetingController {
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    @ApiOperation(value = "获取用户信息")
+    @ApiOperation(value = "获取用户名称（返回Hello）")
     @ApiImplicitParam(name = "name", value = "用户名称")
     @RequestMapping(value = "/greeting", method = RequestMethod.GET)
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
