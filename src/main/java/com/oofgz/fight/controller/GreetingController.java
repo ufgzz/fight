@@ -1,6 +1,6 @@
 package com.oofgz.fight.controller;
 
-import com.oofgz.fight.entity.Greeting;
+import com.oofgz.fight.dto.greeting.Greeting;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;

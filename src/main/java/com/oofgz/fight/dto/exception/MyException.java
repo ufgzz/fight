@@ -1,4 +1,4 @@
-package com.oofgz.fight.exception;
+package com.oofgz.fight.dto.exception;
 
 public class MyException extends Exception {
 

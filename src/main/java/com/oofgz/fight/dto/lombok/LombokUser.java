@@ -1,4 +1,4 @@
-package com.oofgz.fight.entity;
+package com.oofgz.fight.dto.lombok;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

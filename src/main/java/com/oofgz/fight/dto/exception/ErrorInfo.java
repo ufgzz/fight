@@ -1,4 +1,4 @@
-package com.oofgz.fight.entity;
+package com.oofgz.fight.dto.exception;
 
 import java.io.Serializable;
 

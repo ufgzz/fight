@@ -1,4 +1,4 @@
-package com.oofgz.fight.service;
+package com.oofgz.fight.properties;
 
 import lombok.Data;
 

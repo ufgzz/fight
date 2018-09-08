@@ -1,6 +1,6 @@
 package com.oofgz.fight.repository.primary;
 
-import com.oofgz.fight.domain.primary.MongoDbUser;
+import com.oofgz.fight.dto.mongodb.MongoDbUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface MongoDbUserRepository extends MongoRepository<MongoDbUser, Long> {

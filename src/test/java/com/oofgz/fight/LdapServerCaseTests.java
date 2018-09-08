@@ -1,6 +1,6 @@
 package com.oofgz.fight;
 
-import com.oofgz.fight.domain.primary.LdapPerson;
+import com.oofgz.fight.dto.ldap.LdapPerson;
 import com.oofgz.fight.repository.primary.LdapPersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;

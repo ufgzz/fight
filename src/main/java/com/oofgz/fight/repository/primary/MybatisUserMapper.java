@@ -1,6 +1,6 @@
 package com.oofgz.fight.repository.primary;
 
-import com.oofgz.fight.domain.primary.MybatisUser;
+import com.oofgz.fight.dto.mybatis.MybatisUser;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.oofgz.fight;
 
-import com.oofgz.fight.domain.primary.RedisUser;
+import com.oofgz.fight.dto.redis.RedisUser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;

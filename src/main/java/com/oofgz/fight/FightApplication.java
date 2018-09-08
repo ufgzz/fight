@@ -1,7 +1,7 @@
 package com.oofgz.fight;
 
-import com.oofgz.fight.entity.PostInfo;
-import com.oofgz.fight.service.FooProperties;
+import com.oofgz.fight.properties.PostInfo;
+import com.oofgz.fight.properties.FooProperties;
 import com.spring4all.mongodb.EnableMongoPlus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

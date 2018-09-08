@@ -1,6 +1,6 @@
 package com.oofgz.fight.repository.primary;
 
-import com.oofgz.fight.domain.primary.LdapPerson;
+import com.oofgz.fight.dto.ldap.LdapPerson;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.naming.Name;

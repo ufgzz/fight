@@ -1,6 +1,6 @@
 package com.oofgz.fight;
 
-import com.oofgz.fight.domain.primary.MybatisUser;
+import com.oofgz.fight.dto.mybatis.MybatisUser;
 import com.oofgz.fight.repository.primary.MybatisUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

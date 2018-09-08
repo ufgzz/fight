@@ -1,4 +1,4 @@
-package com.oofgz.fight.domain.primary;
+package com.oofgz.fight.dto.ldap;
 
 import lombok.Data;
 import org.springframework.data.domain.Persistable;

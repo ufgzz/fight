@@ -2,7 +2,7 @@ package com.oofgz.fight;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.oofgz.fight.entity.User;
+import com.oofgz.fight.dto.user.User;
 import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
 import lombok.extern.slf4j.Slf4j;

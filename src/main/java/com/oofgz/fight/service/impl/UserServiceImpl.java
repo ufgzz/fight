@@ -1,6 +1,6 @@
 package com.oofgz.fight.service.impl;
 
-import com.oofgz.fight.entity.User;
+import com.oofgz.fight.dto.user.User;
 import com.oofgz.fight.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

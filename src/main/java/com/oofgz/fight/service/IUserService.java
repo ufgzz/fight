@@ -1,6 +1,6 @@
 package com.oofgz.fight.service;
 
-import com.oofgz.fight.entity.User;
+import com.oofgz.fight.dto.user.User;
 
 import java.util.List;
 

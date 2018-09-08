@@ -1,4 +1,4 @@
-package com.oofgz.fight.domain.primary;
+package com.oofgz.fight.dto.mongodb;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

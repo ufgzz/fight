@@ -1,7 +1,7 @@
 package com.oofgz.fight;
 
 import com.mongodb.MongoClient;
-import com.oofgz.fight.domain.primary.MongoDbUser;
+import com.oofgz.fight.dto.mongodb.MongoDbUser;
 import com.oofgz.fight.repository.primary.MongoDbUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -44,7 +44,7 @@ public class MongoDbCaseTests {
     public void mongoDbUserTest() {
 
         // 创建三个MongoDbUser，并验证MongoDbUser总数
-        mongoDbUserRepository.save(new MongoDbUser(1L, "didi", 30));
+        mongoDbUserRepository.save(new MongoDbUser(1L, "didiOOO", 30));
         mongoDbUserRepository.save(new MongoDbUser(2L, "mama", 40));
         mongoDbUserRepository.save(new MongoDbUser(3L, "kaka", 50));
         Assert.assertEquals(3, mongoDbUserRepository.findAll().size());

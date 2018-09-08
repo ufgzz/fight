@@ -1,23 +1,22 @@
-package com.oofgz.fight.domain.primary;
+package com.oofgz.fight.dto.mybatis;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.io.Serializable;
-
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
-public class RedisUser implements Serializable {
+public class MybatisUser {
 
-    private static final long serialVersionUID = -1L;
+    private Long id;
 
     @NonNull
     private String username;
 
     @NonNull
     private Integer age;
+
 
 }

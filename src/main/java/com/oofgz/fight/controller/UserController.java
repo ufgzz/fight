@@ -1,6 +1,6 @@
 package com.oofgz.fight.controller;
 
-import com.oofgz.fight.entity.User;
+import com.oofgz.fight.dto.user.User;
 import com.oofgz.fight.service.IUserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "删除所有用户", notes = "删除所有用户列表信息")
-    @RequestMapping(value = {"", "/deleteAllUsers"}, method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteAllUsers", method = RequestMethod.DELETE)
     public String delettAllUsers() {
         userMap.clear();
         userService.deleteAllUsers();
