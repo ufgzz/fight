@@ -1,7 +1,7 @@
 package com.oofgz.fight;
 
 import com.oofgz.fight.dto.mybatis.MybatisUser;
-import com.oofgz.fight.repository.primary.MybatisUserMapper;
+import com.oofgz.fight.mapper.MybatisUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;

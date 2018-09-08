@@ -2,7 +2,7 @@ package com.oofgz.fight;
 
 import com.mongodb.MongoClient;
 import com.oofgz.fight.dto.mongodb.MongoDbUser;
-import com.oofgz.fight.repository.primary.MongoDbUserRepository;
+import com.oofgz.fight.repository.MongoDbUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;

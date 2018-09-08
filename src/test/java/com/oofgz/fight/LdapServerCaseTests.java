@@ -1,7 +1,7 @@
 package com.oofgz.fight;
 
 import com.oofgz.fight.dto.ldap.LdapPerson;
-import com.oofgz.fight.repository.primary.LdapPersonRepository;
+import com.oofgz.fight.repository.LdapPersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class LdapServerCaseTests {
     @Test
     public void saveLdap() {
         Name dn = LdapNameBuilder.newInstance()
-                .add("ou", "Mini")
+                .add("ou", "MiniPPP")
                 .build();
         LdapPerson ldapPerson = new LdapPerson();
         ldapPerson.setId(dn);

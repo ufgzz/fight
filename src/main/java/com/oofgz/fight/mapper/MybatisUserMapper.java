@@ -1,4 +1,4 @@
-package com.oofgz.fight.repository.primary;
+package com.oofgz.fight.mapper;
 
 import com.oofgz.fight.dto.mybatis.MybatisUser;
 import org.apache.ibatis.annotations.*;

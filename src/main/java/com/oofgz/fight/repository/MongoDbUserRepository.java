@@ -1,4 +1,4 @@
-package com.oofgz.fight.repository.primary;
+package com.oofgz.fight.repository;
 
 import com.oofgz.fight.dto.mongodb.MongoDbUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
