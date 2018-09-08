@@ -1,12 +1,13 @@
-package com.oofgz.fight.dto.user;
+package com.oofgz.fight.dto.restful;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class RestfulUser implements Serializable {
 
-    private Long id;
     //姓名
     private String name;
+    //姓名简拼
+    private String nameSpell;
     //年龄
     private String age;
     //联系方式
@@ -14,12 +15,13 @@ public class User implements Serializable {
     //职业
     private String profession;
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
+    }
+
+
+    public String getNameSpell() {
+        return nameSpell;
     }
 
     public String getAge() {
@@ -34,12 +36,12 @@ public class User implements Serializable {
         return profession;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setNameSpell(String nameSpell) {
+        this.nameSpell = nameSpell;
     }
 
     public void setAge(String age) {

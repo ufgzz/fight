@@ -49,5 +49,6 @@ dependencies {
 	compile('org.projectlombok:lombok:1.18.2')
 	compile('redis.clients:jedis:2.9.0')
 	compile('org.apache.commons:commons-pool2:2.6.0')
+	compile('net.sourceforge:pinyin4j:2.5.0')
 
 }

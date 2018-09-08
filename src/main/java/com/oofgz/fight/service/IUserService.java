@@ -1,6 +1,6 @@
 package com.oofgz.fight.service;
 
-import com.oofgz.fight.dto.user.User;
+import com.oofgz.fight.dto.restful.RestfulUser;
 
 import java.util.List;
 
@@ -8,30 +8,27 @@ public interface IUserService {
 
     /**
      * 新增一个用户
-     * @param name
-     * @param age
-     * @param phone
-     * @param profession
+     * @param restfulUser
      */
-    void create(String name, String age, String phone, String profession);
+    void create(RestfulUser restfulUser);
 
     /**
      * 获取所有用户
      * @return
      */
-    List<User> getAllUsers();
+    List<RestfulUser> getAllUsers();
 
     /**
      * 更新用户信息
-     * @param name
+     * @param nameSpell
      */
-    void updateUserByName(String name, User user);
+    void updateUserByNameSpell(String nameSpell, RestfulUser restfulUser);
 
     /**
      * 根据name删除一个用户
-     * @param name
+     * @param nameSpell
      */
-    void deleteByName(String name);
+    void deleteByNameSpell(String nameSpell);
 
 
     /**
