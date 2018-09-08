@@ -2,9 +2,9 @@ package com.oofgz.fight;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.oofgz.fight.dto.user.User;
 import com.oofgz.fight.controller.GreetingController;
 import com.oofgz.fight.controller.UserController;
+import com.oofgz.fight.dto.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +31,9 @@ public class FightApplicationTests {
 	@Autowired
 	private UserController userController;
 
+	@Autowired
+	private GreetingController greetingController;
+
 	private MockMvc mockMvc;
 
 
@@ -43,7 +46,7 @@ public class FightApplicationTests {
 	public void setUp() {
 		log.info("测试Restful的功能(JdbcTemplate操作数据库)");
 		mockMvc = MockMvcBuilders.standaloneSetup(
-				new GreetingController(),
+				greetingController,
 				userController
 		).build();
 
