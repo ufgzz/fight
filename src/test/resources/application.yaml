@@ -70,5 +70,6 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 0ms
-flyway:
-  locations: classpath:/db
+  flyway:
+    locations: classpath:/db
+    baselineOnMigrate: true
