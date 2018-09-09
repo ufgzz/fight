@@ -9,7 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,8 +30,36 @@ public class JpaRepositoryCaseTests {
     }
 
 
+    /**
+     * Mysql数据库有两种引擎，注意要使用支持事务的引擎，比如innodb，如果是MyIsAm，事务是不起作用的
+     * 集成测试.类中@Transactional 注解，会导致测试中 Entity 数据的操作都是在内存中完成，最终并不会进行 commit 操作，
+     *          也就是不会将 Entity 数据进行持久化操作，从而导致测试的行为和真实应用的行为不一致。
+     * 注：@TransactionConfiguration过时与替代写法
+     * (1).原来的defaultRollback属性现在由专门的注解@Rollback（新增注解）代替，其中只有一个属性就是boolean型的value，作用没变，
+     *     值为true表示测试时如果涉及了数据库的操作，那么测试完成后，该操作会回滚，也就是不会改变数据库内容；
+     *     值为false则与此相反，表示你测试的内容中对数据库的操作会真实的执行到数据库中，不会回滚。
+     *     官方文档中还给出了一个新注解@Commit，该注解与@Rollback只能使用一个，同时用貌似可能出现问题，
+     *     .@Commit注解中无属性需要设置，不像@Rollback中还有一个value属性，用了@Commit，你的测试操作会改变数据库，不会回滚，等同于@Rollback(value=false)。
+     *     这里建议使用@Rollback，不要用@Commit，这样起码你有两种选择可以选。
+     * (2).原来放在@TransactionConfiguration注解中的transactionManager属性现在放在了@Transactional注解中。
+     */
     @Test
+    @Transactional
+    @Rollback(value = false)
     public void jpaDeptTest() {
+
+        //提供一个300字符串
+        String valeSuper300 = "12345678901234567890123456789012345678901234567890" +
+                "12345678901234567890123456789012345678901234567890" +
+                "12345678901234567890123456789012345678901234567890" +
+                "12345678901234567890123456789012345678901234567890" +
+                "12345678901234567890123456789012345678901234567890" +
+                "12345678901234567890123456789012345678901234567890";
+
+        String valueNormal = "HHH";
+
+        String valeTransactional = valueNormal;
+
         //创建10条记录
         jpaDeptRepository.save(new JpaDept("AAA", "Des_AAA", 10));
         jpaDeptRepository.save(new JpaDept("BBB", "Des_BBB", 20));
@@ -38,7 +68,9 @@ public class JpaRepositoryCaseTests {
         jpaDeptRepository.save(new JpaDept("EEE", "Des_EEE", 50));
         jpaDeptRepository.save(new JpaDept("FFF", "Des_FFF", 60));
         jpaDeptRepository.save(new JpaDept("GGG", "Des_GGG", 70));
-        jpaDeptRepository.save(new JpaDept("HHH", "Des_HHH", 80));
+        //JpaDept jpaDept2 = null;
+        //jpaDept2.setName("QQ");
+        jpaDeptRepository.save(new JpaDept(valeTransactional, "Des_HHH", 80));
         jpaDeptRepository.save(new JpaDept("III", "Des_III", 90));
         jpaDeptRepository.save(new JpaDept("JJJ", "Des_JJJ", 100));
 

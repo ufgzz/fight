@@ -43,10 +43,12 @@ spring:
       hibernate:
         ddl-auto: update
         naming:
-          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #按字段名字建表
         hbm2ddl:
           auto: update
       show-sql: true
+      database: mysql
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect #使用innodb引擎建表
   ldap:
     urls: ldap://localhost:389
     base: dc=maxcrc,dc=com

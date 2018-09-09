@@ -12,12 +12,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
+@Table(name = "jpa_dept")
 public class JpaDept implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * nullable, length只有在创建表时起作用
+     * .@Column(nullable = false, length = 5)
+     */
     @Column(nullable = false)
     @NonNull
     private String name;
