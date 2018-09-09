@@ -84,11 +84,7 @@ public class FightApplicationTests {
 				.andExpect(content().string(equalTo("[]")));
 
 		// 2、post提交一个user
-		restfulUser = new RestfulUser();
-		restfulUser.setName("郑福根");
-		restfulUser.setAge("30");
-		restfulUser.setPhone("15980278588");
-		restfulUser.setProfession("高级软件工程师");
+		restfulUser = new RestfulUser("郑福根", 30, "15980278588", "高级软件工程师");
 		requestBuilder = post("/RestfulUser/postUser")
 				.contentType(APPLICATION_JSON).content(ow.writeValueAsString(restfulUser));
 		mockMvc.perform(requestBuilder)
@@ -104,11 +100,7 @@ public class FightApplicationTests {
 				.andExpect(content().string(equalTo(initExceptStr)));
 
 		// 4、put修改id为1的user
-		restfulUser = new RestfulUser();
-		restfulUser.setName("正富贵");
-		restfulUser.setAge("30");
-		restfulUser.setPhone("15980278588");
-		restfulUser.setProfession("超级英雄");
+		restfulUser = new RestfulUser("正富贵", 30, "15980278588", "超级英雄");
 		requestBuilder = put("/RestfulUser/zfg")
 				.contentType(APPLICATION_JSON).content(ow.writeValueAsString(restfulUser));
 		mockMvc.perform(requestBuilder)

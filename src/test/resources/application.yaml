@@ -41,7 +41,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        ddl-auto: none
+        ddl-auto: update
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         hbm2ddl:
@@ -70,3 +70,5 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 0ms
+flyway:
+  locations: classpath:/db

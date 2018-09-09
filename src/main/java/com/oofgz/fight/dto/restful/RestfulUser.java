@@ -9,22 +9,32 @@ public class RestfulUser implements Serializable {
     //姓名简拼
     private String nameSpell;
     //年龄
-    private String age;
+    private Integer age;
     //联系方式
     private String phone;
     //职业
     private String profession;
 
+    public RestfulUser() {
+
+    }
+
+    public RestfulUser(String name, Integer age, String phone, String profession) {
+        this.name = name;
+        this.age = age;
+        this.phone = phone;
+        this.profession = profession;
+    }
+
     public String getName() {
         return name;
     }
-
 
     public String getNameSpell() {
         return nameSpell;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -44,7 +54,7 @@ public class RestfulUser implements Serializable {
         this.nameSpell = nameSpell;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
