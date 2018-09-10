@@ -72,6 +72,8 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 0ms
+    max-wait: 5000
+    max-active: 10
   flyway:
     locations: classpath:/db
     baselineOnMigrate: true

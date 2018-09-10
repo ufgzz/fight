@@ -1,7 +1,10 @@
 package com.oofgz.fight;
 
 import com.oofgz.fight.async.AsyncTask;
+import com.oofgz.fight.async.AsyncTaskFuture;
 import com.oofgz.fight.async.AsyncTaskPool;
+import com.oofgz.fight.async.AsyncTaskRedisPool;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,6 +25,12 @@ public class AsyncTaskCaseTests {
 
     @Autowired
     private AsyncTaskPool asyncTaskPool;
+
+    @Autowired
+    private AsyncTaskRedisPool asyncTaskRedisPool;
+
+    @Autowired
+    private AsyncTaskFuture asyncTaskFuture;
 
     /**
      * 同步调用：几个方法按顺序执行
@@ -62,6 +72,53 @@ public class AsyncTaskCaseTests {
         asyncTaskPool.doTaskThree();
         //阻塞当前调用线程，直到某线程完全执行才调用线程才继续执行
         Thread.currentThread().join();
+
+    }
+
+
+    /**
+     * .@SneakyThrows 在代码中，使用 try，catch来捕捉一些异常，而你不想对他处理，只想抛出去
+     * JedisConnectionException: Could not get a resource from the pool
+     * 模拟高并发情况下ShutDown的情况
+     * 通过for循环往上面定义的线程池中提交任务，由于是异步执行，在执行过程中，利用System.exit(0)来关闭程序，
+     * 此时由于有任务在执行，就可以观察这些异步任务的销毁与Spring容器中其他资源的顺序是否安全
+     * @throws Exception
+     */
+    @Test
+    @SneakyThrows
+    public void asyncTaskRedisPoolTest() throws Exception {
+
+        for (int i = 0; i < 10000; i++) {
+            asyncTaskRedisPool.doTaskOne();
+            asyncTaskRedisPool.doTaskTwo();
+            asyncTaskRedisPool.doTaskThree();
+
+            if (i == 9999) {
+                System.exit(0);
+            }
+        }
+
+
+    }
+
+
+    /**
+     *
+     * 判断任务是否完成；
+     * 能够中断任务；
+     * 能够获取任务执行结果。
+     *
+     * @throws Exception
+     */
+    @Test
+    public void asyncTaskFutureTest() throws Exception {
+
+        Future<String> futureResult = asyncTaskFuture.run();
+        //我们在get方法中还定义了该线程执行的超时时间，
+        // 通过执行这个测试我们可以观察到执行时间超过5秒的时候，
+        // 这里会抛出超时异常，该执行线程就能够因执行超时而释放回线程池，不至于一直阻塞而占用资源
+        String result = futureResult.get(5, TimeUnit.SECONDS);
+        log.info(result);
 
     }
 
