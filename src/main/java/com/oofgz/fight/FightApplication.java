@@ -1,7 +1,7 @@
 package com.oofgz.fight;
 
-import com.oofgz.fight.properties.PostInfo;
 import com.oofgz.fight.properties.FooProperties;
+import com.oofgz.fight.properties.PostInfo;
 import com.spring4all.mongodb.EnableMongoPlus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -13,6 +13,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.ldap.repository.config.EnableLdapRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import java.util.List;
  * ApplicationFailedEvent
  */
 @EnableMongoPlus
+@EnableScheduling
 @EnableLdapRepositories
 @EnableConfigurationProperties
 @SpringBootApplication
