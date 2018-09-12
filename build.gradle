@@ -47,6 +47,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-jdbc') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 	}
+	compile('org.springframework.boot:spring-boot-starter-aop') {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
 	compile('org.springframework.boot:spring-boot-starter-data-jpa') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 	}
