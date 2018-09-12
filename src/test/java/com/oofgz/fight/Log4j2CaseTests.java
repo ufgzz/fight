@@ -11,14 +11,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Log4j2
-public class Log4jCaseTests {
+public class Log4j2CaseTests {
 
 
     @Test
-    public void log4jTest() throws Exception {
+    public void log4j2Test() throws Exception {
         log.info("输出info");
-        //log.debug("输出debug");
-        //log.error("输出error");
+        log.debug("输出debug");
+        log.error("输出error");
     }
 
 
