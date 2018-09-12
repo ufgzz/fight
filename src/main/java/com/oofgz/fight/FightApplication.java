@@ -14,9 +14,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.ldap.repository.config.EnableLdapRepositories;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -102,6 +104,32 @@ public class FightApplication {
 			return executor;
 		}
 
+
+		/**
+		 * Spring的定时任务调度器会尝试获取一个注册过的 task scheduler来做任务调度，它会尝试通过BeanFactory.getBean的方法来获取一个注册过的scheduler bean，获取的步骤如下：
+		 * 1.尝试从配置中找到一个TaskScheduler Bean
+		 * 2.寻找ScheduledExecutorService Bean
+		 * 3.使用默认的scheduler
+		 * 前两步，如果找不到的话，就会以debug的方式抛出异常，分别是：
+		 *
+		 * DEBUG 6424 --- [           main] s.a.ScheduledAnnotationBeanPostProcessor : Could not find default TaskScheduler bean
+		 * org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.scheduling.TaskScheduler' available
+		 *
+		 * DEBUG 6424 --- [           main] s.a.ScheduledAnnotationBeanPostProcessor : Could not find default ScheduledExecutorService bean
+		 * org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'java.util.concurrent.ScheduledExecutorService' available
+		 *
+		 * 解决方式：
+		 * 	01 异常日志级别是 DEBUG ，改为INFO
+		 * 	02 配置类中可添加如下代码("taskScheduler")
+		 * @return
+		 */
+		@Bean("taskScheduler")
+		public TaskScheduler scheduledExecutorService() {
+			ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+			scheduler.setPoolSize(8);
+			scheduler.setThreadNamePrefix("scheduled-thread-");
+			return scheduler;
+		}
 	}
 
 }

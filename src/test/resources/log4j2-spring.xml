@@ -16,19 +16,19 @@
     </properties>
 
     <!--先定义所有的appender-->
-    <appenders>
+    <Appenders>
 
         <!--这个输出控制台日志的配置-->
-        <console name="console" target="SYSTEM_OUT">
+        <Console name="console" target="SYSTEM_OUT">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
             <!--输出日志的格式-->
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <!--<PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>-->
-        </console>
+        </Console>
 
         <!--打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingRandomAccessFile name="infoFile" fileName="${fileName}/web-info.log" immediateFlush="false"
+        <RollingRandomAccessFile name="infoFile" fileName="${fileName}/web-info.log" immediateFlush="trues"
                                  filePattern="${fileGz}/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.web-info.gz">
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
@@ -45,7 +45,7 @@
 
 
         <!--存储所有error信息-->
-        <RollingRandomAccessFile name="errorFile" fileName="${fileName}/web-error.log" immediateFlush="false"
+        <RollingRandomAccessFile name="errorFile" fileName="${fileName}/web-error.log" immediateFlush="true"
                                  filePattern="${fileGz}/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.web-error.gz">
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
@@ -60,22 +60,22 @@
 
         </RollingRandomAccessFile>
 
-    </appenders>
+    </Appenders>
 
 
     <!--Mixed sync/async-->
     <loggers>
-        <root level="debug" includeLocation="true">
+       <!-- <root level="debug" includeLocation="true">
             <appenderRef ref="console"/>
             <appenderRef ref="infoFile"/>
             <appenderRef ref="errorFile"/>
-        </root>
+        </root>-->
         <AsyncRoot level="debug" includeLocation="true">
             <appenderRef ref="console"/>
             <appenderRef ref="infoFile"/>
             <appenderRef ref="errorFile"/>
         </AsyncRoot>
     </loggers>
-
+s
 
 </configuration>
