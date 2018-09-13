@@ -60,6 +60,9 @@ spring:
       option:
         min-connection-per-host: 20
         max-connection-per-host: 200
+      host: localhost
+      database: dnmogodbt
+      port: 27017
   redis:
     database: 0
     host: localhost

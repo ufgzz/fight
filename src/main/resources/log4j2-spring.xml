@@ -60,6 +60,10 @@
 
         </RollingRandomAccessFile>
 
+        <NoSql name="databaseAppender">
+            <MongoDb databaseName="dnmogodbt" collectionName="cnmogodbt" server="localhost" port="27017"/>
+        </NoSql>
+
     </appenders>
 
 
@@ -70,10 +74,14 @@
             <appenderRef ref="infoFile"/>
             <appenderRef ref="errorFile"/>
         </root>-->
+        <!--<AsyncLogger name="asyncLogger" level="debug" includeLocation="true">
+            <AppenderRef ref="databaseAppender"/>
+        </AsyncLogger>-->
         <AsyncRoot level="debug" includeLocation="true">
             <appenderRef ref="console"/>
             <appenderRef ref="infoFile"/>
             <appenderRef ref="errorFile"/>
+            <AppenderRef ref="databaseAppender"/>
         </AsyncRoot>
     </loggers>
 

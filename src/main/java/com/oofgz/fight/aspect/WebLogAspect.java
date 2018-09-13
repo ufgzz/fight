@@ -1,11 +1,13 @@
 package com.oofgz.fight.aspect;
 
+import com.mongodb.BasicDBObject;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.jboss.logging.Logger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -13,14 +15,17 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Aspect
-@Order(5)
+@Order(1)
 @Log4j2
 @Component
 public class WebLogAspect {
 
-
+    private Logger logger = Logger.getLogger(getClass());
     private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Pointcut("execution(public * com.oofgz.fight.controller..*.*(..))")
@@ -39,13 +44,42 @@ public class WebLogAspect {
         HttpServletRequest request = attributes.getRequest();
 
         // 记录下请求内容
-        log.info("URL : " + request.getRequestURL().toString());
-        log.info("HTTP_METHOD : " + request.getMethod());
-        log.info("IP : " + request.getRemoteAddr());
-        log.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        log.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-
+        BasicDBObject logInfo = getBasicDBObject(request, joinPoint);
+        log.info(logInfo);
+        logger.info(logInfo);
     }
+
+    private BasicDBObject getBasicDBObject(HttpServletRequest request, JoinPoint joinPoint) {
+        // 基本信息
+        BasicDBObject r = new BasicDBObject();
+        r.append("requestURL", request.getRequestURL().toString());
+        r.append("requestURI", request.getRequestURI());
+        r.append("queryString", request.getQueryString());
+        r.append("remoteAddr", request.getRemoteAddr());
+        r.append("remoteHost", request.getRemoteHost());
+        r.append("remotePort", request.getRemotePort());
+        r.append("localAddr", request.getLocalAddr());
+        r.append("localName", request.getLocalName());
+        r.append("method", request.getMethod());
+        r.append("headers", getHeadersInfo(request));
+        r.append("parameters", request.getParameterMap());
+        r.append("classMethod", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        r.append("args", Arrays.toString(joinPoint.getArgs()));
+        return r;
+    }
+
+
+    private Map<String, String> getHeadersInfo(HttpServletRequest request) {
+        Map<String, String> map = new HashMap<>();
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+        return map;
+    }
+
 
     /**
      * 在切入点后的操作，按order的值由大到小执行
