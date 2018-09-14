@@ -56,12 +56,12 @@ spring:
     password: secret
   data:
     mongodb:
-      uri: mongodb://localhost:27017/dnmogodbt
+      uri: mongodb://localhost:27017/dnmongodbt
       option:
         min-connection-per-host: 20
         max-connection-per-host: 200
       host: localhost
-      database: dnmogodbt
+      database: dnmongodbt
       port: 27017
   redis:
     database: 0

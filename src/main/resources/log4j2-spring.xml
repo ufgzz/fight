@@ -61,7 +61,7 @@
         </RollingRandomAccessFile>
 
         <NoSql name="databaseAppender">
-            <MongoDb databaseName="dnmogodbt" collectionName="cnmogodbt" server="localhost" port="27017"/>
+            <MongoDb databaseName="dnmongodbt" collectionName="cnmongodbt" server="localhost" port="27017"/>
         </NoSql>
 
     </appenders>
@@ -74,14 +74,18 @@
             <appenderRef ref="infoFile"/>
             <appenderRef ref="errorFile"/>
         </root>-->
-        <!--<AsyncLogger name="asyncLogger" level="debug" includeLocation="true">
-            <AppenderRef ref="databaseAppender"/>
-        </AsyncLogger>-->
+        <!--过滤掉spring和hibernate的一些无用的debug信息 -->
+        <logger name="org.springframework" level="INFO">
+        </logger>
+        <logger name="org.hibernate" level="INFO">
+        </logger>
+        <AsyncLogger name="AsyncLogger" level="debug" includeLocation="true">
+           <AppenderRef ref="databaseAppender"/>
+       </AsyncLogger>
         <AsyncRoot level="debug" includeLocation="true">
             <appenderRef ref="console"/>
             <appenderRef ref="infoFile"/>
             <appenderRef ref="errorFile"/>
-            <AppenderRef ref="databaseAppender"/>
         </AsyncRoot>
     </loggers>
 

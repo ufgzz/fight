@@ -7,7 +7,6 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.jboss.logging.Logger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -21,11 +20,11 @@ import java.util.Map;
 
 @Aspect
 @Order(1)
-@Log4j2
+@Log4j2(topic = "AsyncLogger")
 @Component
 public class WebLogAspect {
 
-    private Logger logger = Logger.getLogger(getClass());
+    //private Logger mongoDbLogger = LogManager.getLogger(WebLogAspect.class);
     private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Pointcut("execution(public * com.oofgz.fight.controller..*.*(..))")
@@ -46,7 +45,7 @@ public class WebLogAspect {
         // 记录下请求内容
         BasicDBObject logInfo = getBasicDBObject(request, joinPoint);
         log.info(logInfo);
-        logger.info(logInfo);
+        //mongoDbLogger.info(logInfo);
     }
 
     private BasicDBObject getBasicDBObject(HttpServletRequest request, JoinPoint joinPoint) {
@@ -90,6 +89,8 @@ public class WebLogAspect {
         // 处理完请求，返回内容
         log.info("RESPONSE : " + ret);
         log.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
+        //mongoDbLogger.info("RESPONSE : " + ret);
+        //mongoDbLogger.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
     }
 
 
