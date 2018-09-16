@@ -77,8 +77,6 @@
         <!--过滤掉spring和hibernate的一些无用的debug信息 -->
         <logger name="org.springframework" level="INFO">
         </logger>
-        <logger name="org.hibernate" level="INFO">
-        </logger>
         <!--additivity="false" 不继承父类的日志输出打印-->
         <AsyncLogger name="AsyncLogger" level="debug" includeLocation="true">
             <AppenderRef ref="databaseAppender"/>
