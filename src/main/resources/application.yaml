@@ -19,6 +19,19 @@ com:
       bignumber: ${random.long}
       random-num-in-10: ${random.int(10)}
       random-num-between-10-20: ${random.int[10,20]}
+  cache:
+    multi:
+      cacheNames: cacheOne,cacheTwo,cacheThree
+      ehcache:
+        expireAfterWrite: 5000
+        maxEntry: 1000
+      redis:
+        defaultExpiration: 60000
+        expires:
+          cacheOne: 50000
+          cacheTwo: 70000
+          cacheThree: 70000
+    use2L: true #开启二级缓存
 spring:
   profiles:
     active: dev
@@ -37,7 +50,6 @@ spring:
       username: root
       password:
       driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     properties:
       hibernate:
@@ -60,6 +72,10 @@ spring:
       option:
         min-connection-per-host: 20
         max-connection-per-host: 200
+  cache:
+    cache-names: cacheOne,cacheTwo,cacheThree
+    ehcache:
+      config: classpath:cache/ehcache.xml
   redis:
     database: 0
     host: localhost
