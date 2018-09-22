@@ -81,7 +81,10 @@ public class EhcacheCaseTests {
 
     @Test
     public void mixEhcacheAndRedisTest() {
-        retrieveCountry();
+        for (int i = 0 ; i < 10; i ++) {
+            retrieveCountry();
+        }
+
        // removeCountry();
        // clean();
     }
