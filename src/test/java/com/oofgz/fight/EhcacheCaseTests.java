@@ -59,31 +59,29 @@ public class EhcacheCaseTests {
         dsUserSecondaryRepository.save(new DsUser("AAA", 23));
 
         this.random = new Random();
-        clean();
+        //clean();
     }
 
     @Test
     public void ehcacheTest() {
 
         DsUser u1 = dsUserSecondaryRepository.findByName("AAA");
-        System.out.println("第一次查询：" + u1.getAge());
+        log.info("第一次查询：" + u1.getAge());
 
         DsUser u2 = dsUserSecondaryRepository.findByName("AAA");
-        System.out.println("第二次查询：" + u2.getAge());
+        log.info("第二次查询：" + u2.getAge());
 
         u1.setAge(20);
         dsUserSecondaryRepository.save(u1);
         DsUser u3 = dsUserSecondaryRepository.findByName("AAA");
-        System.out.println("第三次查询：" + u3.getAge());
+        log.info("第三次查询：" + u3.getAge());
 
     }
 
 
     @Test
     public void mixEhcacheAndRedisTest() {
-        for (int i = 0;i < 10; i++) {
-            retrieveCountry();
-        }
+        retrieveCountry();
        // removeCountry();
        // clean();
     }
@@ -91,19 +89,19 @@ public class EhcacheCaseTests {
     public void removeCountry() {
         String randomCode = SAMPLE_COUNTRY_CODES
                 .get(this.random.nextInt(SAMPLE_COUNTRY_CODES.size()));
-        System.out.println("Removing for country with code '" + randomCode + "'");
+        log.info("Removing for country with code '" + randomCode + "'");
         this.countryRepository.removeByCode(randomCode);
     }
 
     public void retrieveCountry() {
         String randomCode = SAMPLE_COUNTRY_CODES
                 .get(this.random.nextInt(SAMPLE_COUNTRY_CODES.size()));
-        System.out.println("Looking for country with code '" + randomCode + "'");
+        log.info("Looking for country with code '" + randomCode + "'");
         this.countryRepository.findByCode(randomCode);
     }
 
     public void clean() {
-        System.out.println("clean all countries");
+        log.info("clean all countries");
         this.countryRepository.clean();
     }
 
