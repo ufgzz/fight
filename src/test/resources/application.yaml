@@ -37,7 +37,6 @@ spring:
       username: root
       password:
       driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     properties:
       hibernate:
@@ -60,6 +59,13 @@ spring:
       option:
         min-connection-per-host: 20
         max-connection-per-host: 200
+  cache:
+    type: redis
+  ext:
+    cache:
+      name: countries
+      redis:
+        topic: cache
   redis:
     database: 0
     host: localhost

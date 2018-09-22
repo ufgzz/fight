@@ -4,30 +4,61 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oofgz.fight.dto.redis.RedisUser;
-import com.oofgz.fight.properties.RedisEhcacheProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import com.oofgz.fight.manager.LocalRedisCache;
+import com.oofgz.fight.manager.LocalRedisCacheManager;
+import com.oofgz.fight.manager.UpdateMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.jcache.JCacheCacheManager;
+import org.springframework.cache.jcache.JCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 @Configuration
-@ConditionalOnProperty(name = "com.cache.use2L", havingValue = "false", matchIfMissing = true)
-@EnableConfigurationProperties(RedisEhcacheProperties.class)
+@EnableCaching
 public class RedisCacheConfig {
 
-    @Autowired
-    private RedisEhcacheProperties redisEhcacheProperties;
+    @Value("${spring.ext.cache.name:countries}")
+    private String localCacheName;
+
+    @Value("${spring.ext.cache.redis.topic:cache}")
+    private String topicName;
+
+    @Bean
+    public CacheManager jCacheCacheManager() {
+        return new JCacheCacheManager(jCacheManagerFactoryBean().getObject());
+    }
+
+    @Bean
+    public JCacheManagerFactoryBean jCacheManagerFactoryBean() {
+        JCacheManagerFactoryBean jCacheManagerFactoryBean = new JCacheManagerFactoryBean();
+        Resource resource = new ClassPathResource("ehcache3.xml");
+        try {
+            jCacheManagerFactoryBean.setCacheManagerUri(resource.getURI());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return jCacheManagerFactoryBean;
+    }
+
+
 
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
@@ -68,17 +99,46 @@ public class RedisCacheConfig {
     }
 
 
+    @Primary
     @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
-        //设置各个cache的缓存过期时间
-        Map<String, Long> expires = new HashMap<>(redisEhcacheProperties.getRedis().getExpires());
-        //毫秒->秒
-        expires.forEach((k, v) -> expires.put(k, v/1000));
-
-        rcm.setExpires(expires);
-        rcm.setDefaultExpiration(redisEhcacheProperties.getRedis().getDefaultExpiration());//默认过期时间
-        return rcm;
+    public RedisCacheManager redisCacheManager(JedisConnectionFactory jedisConnectionFactory,
+                                               RedisTemplate redisTemplate) {
+        RedisCacheManager cacheManager = LocalRedisCacheManager.create(jedisConnectionFactory,
+                jCacheCacheManager().getCache(localCacheName), redisTemplate, topicName);
+        return cacheManager;
     }
+
+
+    @Bean
+    public RedisMessageListenerContainer container(JedisConnectionFactory jedisConnectionFactory,
+                                                   MessageListenerAdapter listenerAdapter) {
+
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(jedisConnectionFactory);
+        container.addMessageListener(listenerAdapter, new PatternTopic(topicName));
+
+        return container;
+    }
+
+    @Bean
+    public MessageListenerAdapter listenerAdapter(LocalRedisCacheManager localRedisCacheManager, RedisTemplate redisTemplate) {
+        return new MessageListenerAdapter(new MessageListener() {
+            @Override
+            public void onMessage(Message message, byte[] pattern) {
+                byte[] channel = message.getChannel();
+                byte[] body = message.getBody();
+
+                String cacheName = (String) redisTemplate.getStringSerializer().deserialize(channel);
+                LocalRedisCache cache = (LocalRedisCache) localRedisCacheManager.getCache(cacheName);
+                if (cache == null) {
+                    return;
+                }
+
+                UpdateMessage updateMessage = (UpdateMessage) redisTemplate.getValueSerializer().deserialize(body);
+                cache.sub( updateMessage);
+            }
+        });
+    }
+
 
 }

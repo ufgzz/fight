@@ -90,4 +90,5 @@ dependencies {
 	//ehcache2.0
 	//compile('net.sf.ehcache:ehcache:2.10.5')
 	compile('com.google.guava:guava:26.0-jre')
+	compile('javax.cache:cache-api:1.1.0')
 }
