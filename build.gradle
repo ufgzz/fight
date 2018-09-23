@@ -98,4 +98,5 @@ dependencies {
 	compile('com.google.guava:guava:26.0-jre')
 	compile('javax.cache:cache-api:1.1.0')
 	compile('org.apache.velocity:velocity:1.7')
+	compile('org.springframework.statemachine:spring-statemachine-core:2.0.2.RELEASE')
 }

@@ -1,9 +1,12 @@
 package com.oofgz.fight;
 
+import com.oofgz.fight.enums.Events;
+import com.oofgz.fight.enums.States;
 import com.oofgz.fight.properties.FooProperties;
 import com.oofgz.fight.properties.PostInfo;
 import com.spring4all.mongodb.EnableMongoPlus;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.statemachine.StateMachine;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -40,7 +44,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableLdapRepositories
 @EnableConfigurationProperties
 @SpringBootApplication
-public class FightApplication {
+public class FightApplication implements CommandLineRunner{
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(FightApplication.class, args);
@@ -134,4 +138,14 @@ public class FightApplication {
 		}
 	}
 
+
+	@Autowired
+	private StateMachine<States, Events> stateMachine;
+
+	@Override
+	public void run(String... args) {
+		stateMachine.start();
+		stateMachine.sendEvent(Events.PAY);
+		stateMachine.sendEvent(Events.RECEIVE);
+	}
 }

@@ -13,3 +13,4 @@ mvn install:install-file -Dfile=C:\Downloads\pinyin4j-2.5.0.jar -DgroupId=net.so
 ####1.ERLANG_HOME=D:\Applications\erl10.0.1
 ####2.Path=%ERLANG_HOME%\bin
 ####3.rabbitmq-plugins enable rabbitmq_management命令进行安装
+####4.http://localhost:15672
