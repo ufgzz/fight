@@ -18,8 +18,11 @@ public class LocalRedisCacheManager extends RedisCacheManager {
     private final RedisOperations redisOperations;
     private final String topicName;
 
-    public LocalRedisCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration,
-                                  RedisConnectionFactory connectionFactory, Cache localCache, RedisOperations redisOperations,
+    public LocalRedisCacheManager(RedisCacheWriter cacheWriter,
+                                  RedisCacheConfiguration defaultCacheConfiguration,
+                                  RedisConnectionFactory connectionFactory,
+                                  Cache localCache,
+                                  RedisOperations redisOperations,
                                   String topicName) {
         super(cacheWriter, defaultCacheConfiguration);
 
@@ -32,9 +35,13 @@ public class LocalRedisCacheManager extends RedisCacheManager {
         check();
     }
 
-    public LocalRedisCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration,
-                                  RedisConnectionFactory connectionFactory, Cache localCache,
-                                  RedisOperations redisOperations, String topicName, String... initialCacheNames) {
+    public LocalRedisCacheManager(RedisCacheWriter cacheWriter,
+                                  RedisCacheConfiguration defaultCacheConfiguration,
+                                  RedisConnectionFactory connectionFactory,
+                                  Cache localCache,
+                                  RedisOperations redisOperations,
+                                  String topicName,
+                                  String... initialCacheNames) {
         super(cacheWriter, defaultCacheConfiguration, initialCacheNames);
 
 
@@ -48,8 +55,10 @@ public class LocalRedisCacheManager extends RedisCacheManager {
 
     public LocalRedisCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration,
                                   Map<String, RedisCacheConfiguration> initialCacheConfigurations,
-                                  RedisConnectionFactory connectionFactory, Cache localCache,
-                                  RedisOperations redisOperations, String topicName) {
+                                  RedisConnectionFactory connectionFactory,
+                                  Cache localCache,
+                                  RedisOperations redisOperations,
+                                  String topicName) {
         super(cacheWriter, defaultCacheConfiguration, initialCacheConfigurations);
 
         this.connectionFactory = connectionFactory;
@@ -73,7 +82,6 @@ public class LocalRedisCacheManager extends RedisCacheManager {
         Assert.notNull(connectionFactory, "connectionFactory must not be null");
         Assert.notNull(redisOperations, "redisOperations must not be null");
         Assert.notNull(topicName, "topicName must not be null");
-
         return new LocalRedisCacheManager(RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory),
                 RedisCacheConfiguration.defaultCacheConfig(), connectionFactory, localCache, redisOperations, topicName);
     }

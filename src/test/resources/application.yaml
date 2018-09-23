@@ -83,3 +83,14 @@ spring:
   flyway:
     locations: classpath:/db
     baselineOnMigrate: true
+  mail:
+    host: smtp.qq.com
+    username: 1158603417@qq.com
+    password: jbmexibcwsfmhhif
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
