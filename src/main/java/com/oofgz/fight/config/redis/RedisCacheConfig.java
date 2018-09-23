@@ -117,7 +117,8 @@ public class RedisCacheConfig {
     }
 
     @Bean
-    public MessageListenerAdapter listenerAdapter(LocalRedisCacheManager localRedisCacheManager, RedisTemplate redisTemplate) {
+    public MessageListenerAdapter listenerAdapter(RedisCacheManager redisCacheManager,
+                                                  RedisTemplate redisTemplate) {
         return new MessageListenerAdapter(new MessageListener() {
             @Override
             public void onMessage(Message message, byte[] pattern) {
@@ -125,7 +126,7 @@ public class RedisCacheConfig {
                 byte[] body = message.getBody();
 
                 String cacheName = (String) redisTemplate.getStringSerializer().deserialize(channel);
-                LocalRedisCache cache = (LocalRedisCache) localRedisCacheManager.getCache(cacheName);
+                LocalRedisCache cache = (LocalRedisCache) redisCacheManager.getCache(cacheName);
                 if (cache == null) {
                     return;
                 }
