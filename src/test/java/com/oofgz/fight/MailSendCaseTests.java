@@ -3,6 +3,7 @@ package com.oofgz.fight;
 import com.oofgz.fight.mail.VelocityEngineBean;
 import lombok.extern.log4j.Log4j2;
 import org.apache.velocity.VelocityContext;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class MailSendCaseTests {
     private JavaMailSender mailSender;
     @Autowired
     private VelocityEngineBean velocityEngineBean;
+
+    @Before
+    public void setUp() {
+        log.info("测试JavaMail邮件发送的功能");
+    }
+
 
     @Test
     public void sendSimpleMailTest() {

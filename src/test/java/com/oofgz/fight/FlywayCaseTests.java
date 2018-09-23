@@ -22,6 +22,7 @@ public class FlywayCaseTests {
 
     @Before
     public void setUp() {
+        log.info("测试FlyWay数据库的功能");
         // 准备，清空user表
         userService.deleteAllUsers();
     }
