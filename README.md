@@ -3,7 +3,7 @@
 
 ###jar怎么上传到本地仓库
 mvn install:install-file -Dfile=C:\Downloads\pinyin4j-2.5.0.jar -DgroupId=net.sourceforge -DartifactId=pinyin4j -Dversion=2.5.0 -Dpackaging=jar
-
+mvn install:install-file -Dfile=D:\Development\AAA\sqljdbc42.jar -Dpackaging=jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0
 ###mysql修改time_zone
 ####1.mysql -uroot
 ####2.show variables like '%time_zone%';
