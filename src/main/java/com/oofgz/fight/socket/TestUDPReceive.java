@@ -65,10 +65,11 @@ public class TestUDPReceive {
                 //解析数据
                 //获取ip地址
                 String ip = datagramPacket.getAddress().getHostAddress();
-
-                //获取数据
-                String data = new String(datagramPacket.getData(),0,datagramPacket.getLength());
-                System.out.println("from " + ip + " data is " + data);
+                if (ip.equals("127.0.0.1") || ip.equals("localhost") || ip.equals("192.168.73.140")) {
+                    //获取数据
+                    String data = new String(datagramPacket.getData(),0,datagramPacket.getLength());
+                    System.out.println("from " + ip + " data is " + data);
+                }
             }
             //释放资源(服务器一般永远是开着的）
             //ds.close();
