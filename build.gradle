@@ -28,9 +28,11 @@ repositories {
 
 
 dependencies {
-	testCompile('org.springframework.boot:spring-boot-starter-socket') {
+
+	testCompile('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 	}
+
 
 	//compile('org.springframework.boot:spring-boot-starter-freemarker')
 	//compile('org.springframework.boot:spring-boot-starter-velocity:1.4.7.RELEASE')
